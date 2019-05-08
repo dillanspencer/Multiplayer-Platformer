@@ -298,7 +298,6 @@ public class Adventurer extends GamePlayer {
 		} else if (alreadyDoubleJump) {
 			if (currentAction != DOUBLEJUMP) {
 				setAnimation(DOUBLEJUMP);
-				System.out.println("dshasdhnc");
 			}
 		} else if (dy > 0) {
 			if (currentAction != FALLING) {

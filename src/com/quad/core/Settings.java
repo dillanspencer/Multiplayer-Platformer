@@ -9,7 +9,7 @@ public class Settings {
 	//multiplayer
 	public static String USERNAME = "DEFAULT";
 	
-	public static final int FPS = 60;
+	public static int FPS = 60;
 	
 	public static boolean LIGHT = false;
 	

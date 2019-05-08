@@ -31,6 +31,7 @@ public class GameContainer implements Runnable
 	private boolean clearScreen = false;
 	private boolean debug = false;
 	private int fullscreen = 0;
+	private boolean isServer = false;
 	
 	public GameContainer(AbstractGame game)
 	{
@@ -48,18 +49,19 @@ public class GameContainer implements Runnable
 		if(fullscreen == 1){
 			window = new Window(this,true);
 		}else{
+			System.out.println(fullscreen);
 			window = new Window(this);
 		}
 		renderer = new Renderer(this);
 		input = new Input(this);
 		physics = new Physics();
 		
-		if(JOptionPane.showConfirmDialog(window.getCanvas(), "Start Server?") == 0) {
+		if(isServer) {
 			socketServer = new GameServer(this);
 			socketServer.start();
 		}
 		
-		socketClient = new GameClient(this, "localhost");
+		socketClient = new GameClient(this, "10.0.0.240");
 		socketClient.start();
 		
 		thread = new Thread(this);
@@ -67,6 +69,14 @@ public class GameContainer implements Runnable
 		
 	}
 	
+	public boolean isServer() {
+		return isServer;
+	}
+
+	public void setServer(boolean isServer) {
+		this.isServer = isServer;
+	}
+
 	public void stop()
 	{
 		if(!isRunning)
@@ -155,6 +165,11 @@ public class GameContainer implements Runnable
 	public void setFrameCap(int number)
 	{
 		frameCap = 1.0 / number;
+	}
+	
+	public double getFrameCap()
+	{
+		return frameCap;
 	}
 	
 	public GameServer getServer() {
@@ -263,6 +278,15 @@ public class GameContainer implements Runnable
 	public boolean isDebug()
 	{
 		return debug;
+	}
+	
+
+	public int getFullscreen() {
+		return fullscreen;
+	}
+
+	public void setFullscreen(int fullscreen) {
+		this.fullscreen = fullscreen;
 	}
 
 	public void setDebug(boolean debug)

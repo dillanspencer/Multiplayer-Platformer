@@ -118,7 +118,7 @@ public class LevelOne extends State {
 		// player
 		player = new PlayerMP(tm, spawnX, spawnY, null, -1);
 		player.init(enemies);
-		player.setUserName(JOptionPane.showInputDialog("Enter username"));
+		player.setUserName(Settings.USERNAME);
 
 		Settings.setUsername(player.getUserName());
 
@@ -506,12 +506,12 @@ public class LevelOne extends State {
 		}
 		try {
 			PlayerMP player = (PlayerMP) this.connectedPlayers.get(index);
+			player.setPosition(x, y);
 			player.setLeft(gc, m[Packet02Move.LEFT]);
 			player.setRight(gc, m[Packet02Move.RIGHT]);
 			player.setJumping(m[Packet02Move.JUMPING]);
 			player.setCrouching(m[Packet02Move.CROUCHING]);
 			if(m[Packet02Move.SLIDING])player.setSliding();
-			player.setPosition(x, y);
 		} catch (IndexOutOfBoundsException e) {
 			
 		}
