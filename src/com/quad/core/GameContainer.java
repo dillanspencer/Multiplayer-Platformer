@@ -1,12 +1,13 @@
 package com.quad.core;
 
 import java.awt.event.KeyEvent;
-
-import javax.swing.JOptionPane;
+import java.util.ArrayList;
+import java.util.Random;
 
 import com.quad.core.components.Physics;
 import com.quad.net.GameClient;
-import com.quad.net.GameServer;
+import com.quad.net.packets.Packet00Login;
+import com.quad.net.users.User;
 
 public class GameContainer implements Runnable
 {
@@ -16,8 +17,9 @@ public class GameContainer implements Runnable
 	private Renderer renderer;
 	private Input input;
 	private Physics physics;
-	private GameServer socketServer;
 	private GameClient socketClient;
+	private User user;
+	private ArrayList<User> onlineUsers;
 	
 	public static int width = 320, height = 240;
 	private float scale = 2.0f;
@@ -49,20 +51,18 @@ public class GameContainer implements Runnable
 		if(fullscreen == 1){
 			window = new Window(this,true);
 		}else{
-			System.out.println(fullscreen);
 			window = new Window(this);
 		}
 		renderer = new Renderer(this);
 		input = new Input(this);
 		physics = new Physics();
 		
-		if(isServer) {
-			socketServer = new GameServer(this);
-			socketServer.start();
-		}
-		
-		socketClient = new GameClient(this, "10.0.0.240");
+		socketClient = new GameClient(this, "192.168.0.17");
 		socketClient.start();
+		
+		user = new User("Dillan " + new Random().nextInt(100));
+		onlineUsers = new ArrayList<User>();
+		
 		
 		thread = new Thread(this);
 		thread.start();
@@ -172,12 +172,12 @@ public class GameContainer implements Runnable
 		return frameCap;
 	}
 	
-	public GameServer getServer() {
-		return socketServer;
-	}
-	
 	public GameClient getClient() {
 		return socketClient;
+	}
+	
+	public User getUser() {
+		return this.user;
 	}
 	
 	public int getWidth()
@@ -280,6 +280,10 @@ public class GameContainer implements Runnable
 		return debug;
 	}
 	
+
+	public ArrayList<User> getOnlineUsers() {
+		return onlineUsers;
+	}
 
 	public int getFullscreen() {
 		return fullscreen;

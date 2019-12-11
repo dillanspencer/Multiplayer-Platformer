@@ -1,7 +1,6 @@
 package com.quad.net.packets;
 
 import com.quad.net.GameClient;
-import com.quad.net.GameServer;
 
 public class Packet01Disconnect extends Packet {
 
@@ -20,11 +19,6 @@ public class Packet01Disconnect extends Packet {
     @Override
     public void writeData(GameClient client) {
         client.sendData(getData());
-    }
-
-    @Override
-    public void writeData(GameServer server) {
-        server.sendDataToAllClients(getData());
     }
 
     @Override

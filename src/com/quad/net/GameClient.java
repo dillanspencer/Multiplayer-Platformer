@@ -8,12 +8,13 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import com.quad.core.GameContainer;
-import com.quad.net.entity.PlayerMP;
 import com.quad.net.packets.Packet;
 import com.quad.net.packets.Packet.PacketTypes;
 import com.quad.net.packets.Packet00Login;
 import com.quad.net.packets.Packet01Disconnect;
 import com.quad.net.packets.Packet02Move;
+import com.quad.net.packets.Packet10Start;
+import com.quad.net.users.User;
 
 public class GameClient extends Thread {
 
@@ -57,6 +58,7 @@ public class GameClient extends Thread {
 		case LOGIN:
 			packet = new Packet00Login(data);
 			handleLogin((Packet00Login) packet, address, port);
+			game.getGame().getCurrentState().addPlayer(address, 100, 50, port, ((Packet00Login)packet).getUsername());
 			break;
 		case DISCONNECT:
 			packet = new Packet01Disconnect(data);
@@ -67,6 +69,11 @@ public class GameClient extends Thread {
 	        case MOVE:
 	            packet = new Packet02Move(data);
 	            handleMove((Packet02Move) packet);
+	            break;
+	        case START:
+	        	packet = new Packet10Start(data);
+	        	handleStartGame();
+	        	break;
 		}
 	}
 
@@ -83,16 +90,18 @@ public class GameClient extends Thread {
 	private void handleLogin(Packet00Login packet, InetAddress address, int port) {
 		System.out.println(
 				"[" + address.getHostAddress() + ":" + port + "] " + packet.getUsername() + " has joined the game...");
-		PlayerMP player = new PlayerMP(game.getGame().getCurrentState().getTileMap(),
-				((Packet00Login) packet).getX(), ((Packet00Login) packet).getY(), address, port);
-		game.getGame().getCurrentState().addPlayer(address,player.getx(),player.gety(),port, packet.getUsername());
+		game.getOnlineUsers().add(new User(packet.getUsername()));
+	}
+	
+	private void handleStartGame() {
 	}
 
 	private void handleMove(Packet02Move packet) {
-		//System.out.println("Move Packet" +  " " + packet.getUsername()+ " " +packet.getX()+ " " + packet.getY()+ " " + packet.isLeft()+ " " +
-				//packet.isRight());
-		boolean[] m = {packet.isLeft(), packet.isRight(), packet.isJumping(), packet.isFalling(), packet.isCrouching(), packet.isSliding()};
+		if(packet.getUsername().equalsIgnoreCase(game.getUser().getUserName()))return;
+		boolean[] m = {packet.isLeft(), packet.isRight(), packet.isUp(), packet.isDown(),
+						packet.isAttacking(), packet.isMidAttacking(), packet.isTopAttacking()};
 		game.getGame().getCurrentState().movePlayer(game,packet.getUsername(), packet.getX(), packet.getY(), m);
 	}
+	
 
 }

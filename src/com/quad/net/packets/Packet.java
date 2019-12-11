@@ -1,12 +1,15 @@
 package com.quad.net.packets;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import com.quad.net.GameClient;
-import com.quad.net.GameServer;
 
 public abstract class Packet {
 	
 	public static enum PacketTypes{
-		INVALID(-1), LOGIN(00), DISCONNECT(01), MOVE(02);
+		INVALID(-1), LOGIN(00), DISCONNECT(01), MOVE(02), START(10);
 		
 		private int packetId;
 		private PacketTypes(int packetId) {
@@ -24,7 +27,6 @@ public abstract class Packet {
 		this.packetId = (byte)packetId;
 	}
 
-	public abstract void writeData(GameServer server);
 	public abstract void writeData(GameClient client);
 	
 	public String readData(byte[] data) {
@@ -49,5 +51,11 @@ public abstract class Packet {
 			}
 		}
 		return PacketTypes.INVALID;
+	}
+	
+	public static Object deserialize(byte[] data) throws IOException, ClassNotFoundException {
+		ByteArrayInputStream in = new ByteArrayInputStream(data);
+		ObjectInputStream is = new ObjectInputStream(in);
+		return is.readObject();
 	}
 }

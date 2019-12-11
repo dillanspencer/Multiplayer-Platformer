@@ -2,13 +2,10 @@ package com.quad.core;
 
 public class Settings {
 	
-	public static final int WIDTH = 1080/3;
-	public static final int HEIGHT = 640/3;
-	public static final int SCALE = 3;	
-	
-	//multiplayer
-	public static String USERNAME = "DEFAULT";
-	
+	public static final int WIDTH = 800/2;
+	public static final int HEIGHT = 600/2;
+	public static final int SCALE = 2;	
+		
 	public static int FPS = 60;
 	
 	public static boolean LIGHT = false;
@@ -25,8 +22,5 @@ public class Settings {
 		gc.setFrameCap(i);
 	}
 	
-	public static void setUsername(String s) {
-		Settings.USERNAME = s;
-	}
 
 }

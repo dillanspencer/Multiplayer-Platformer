@@ -156,7 +156,7 @@ public abstract class GameObject {
 		if (dy < 0) {
 			if (topLeft || topRight) {
 				dy = 0;
-				ytemp = currRow * tileSize + cheight / 2;
+				//ytemp = currRow * tileSize + cheight / 2;
 			} else {
 				ytemp += dy;
 			}
@@ -165,7 +165,7 @@ public abstract class GameObject {
 			if (bottomLeft || bottomRight) {
 				dy = 0;
 				falling = false;
-				ytemp = (currRow + 2) * tileSize - cheight / 2 - coffy;
+				//ytemp = (currRow + 2) * tileSize - cheight / 2 - coffy;
 			} else {
 				ytemp += dy;
 			}
@@ -175,7 +175,7 @@ public abstract class GameObject {
 		if (dx < 0) {
 			if (topLeft || bottomLeft) {
 				dx = 0;
-				 xtemp = currCol * tileSize + cwidth / 2;
+				// xtemp = currCol * tileSize + cwidth / 2;
 			} else {
 				xtemp += dx;
 			}
@@ -183,7 +183,7 @@ public abstract class GameObject {
 		if (dx > 0) {
 			if (topRight || bottomRight) {
 				dx = 0;
-				xtemp = (currCol + 1) * tileSize - cwidth / 2;
+				//xtemp = (currCol + 1) * tileSize - cwidth / 2;
 			} else {
 				xtemp += dx;
 			}
@@ -273,11 +273,11 @@ public abstract class GameObject {
 		ymap = tileMap.gety();
 	}
 
-	public void setLeft(GameContainer gc, boolean b) {
+	public void setLeft(boolean b) {
 		left = b;
 	}
 
-	public void setRight(GameContainer gc, boolean b) {
+	public void setRight(boolean b) {
 		right = b;
 	}
 
@@ -323,8 +323,8 @@ public abstract class GameObject {
 		Rectangle re = getRectangle();
 		re.x += xmap;
 		re.y += ymap;
-
-		// r.drawRect(re.x, re.y,re.width , re.height, 0xffffff, ShadowType.NONE);
+		//System.out.println(re.x + ", " + re.y);
+		//r.drawRect(re.x, re.y,re.width , re.height, 0xfc0317, ShadowType.NONE);
 
 	}
 

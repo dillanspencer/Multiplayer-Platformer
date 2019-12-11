@@ -51,7 +51,7 @@ public class Window
 		//check if window closes
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				Packet01Disconnect packet = new Packet01Disconnect(Settings.USERNAME);
+				Packet01Disconnect packet = new Packet01Disconnect(gc.getUser().getUserName());
 				packet.writeData(gc.getClient());
 			}
 		});

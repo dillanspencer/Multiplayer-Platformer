@@ -11,8 +11,11 @@ public class GameManager
 	public static void main(String args[])
 	{
 		GameContainer gc = new GameContainer(new AbstractGame());
-		OptionManager manager = new OptionManager(gc);
-		
+		gc.setTitle("Quad Engine");
+		gc.setWidth(Settings.WIDTH);
+		gc.setHeight(Settings.HEIGHT);
+		gc.setScale(Settings.SCALE);
+		gc.start();
 	}
 
 	

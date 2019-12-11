@@ -2,7 +2,8 @@ package com.quad.core;
 
 
 import com.quad.core.components.State;
-import com.quad.states.LevelOne;
+import com.quad.states.MenuState;
+import com.quad.states.TestState;
 
 
 public class AbstractGame{
@@ -26,12 +27,13 @@ public class AbstractGame{
 		paused = false;
 		
 		
-		currentState = LEVELONE;
+		currentState = MENU;
 		loadState(currentState);
 	}
 	
 	private void loadState(int state) {
-		if(state == LEVELONE) states[currentState] = new LevelOne();
+		if(state == MENU) states[currentState] = new MenuState();
+		if(state == LEVELONE) states[currentState] = new TestState();
 	}
 	
 	private void unloadState(int state) {
